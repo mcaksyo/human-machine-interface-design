@@ -73,8 +73,12 @@
       main {
         grid-column: span 8;
         background: #fff;
-        padding: 20px;
+        padding: 20px 0;
         border-radius: 8px;
+      }
+      main > h2,
+      main > p {
+        padding: 0 20px;
       }
       aside {
         grid-column: span 4;
@@ -320,9 +324,6 @@
           </select>
         </div>
         <button type="button">Найти игры</button>
-        <p class="note">
-          Учебный макет: поиск, фильтры и кнопки карточек не выполняют действий.
-        </p>
       </aside>
       <main>
         <h2>Каталог игр (карточки 4 + 4 + 4 колонки)</h2>
@@ -373,7 +374,7 @@
         </div>
       </main>
       <footer>
-        <p>Игровая полка © 2026 · Цены и наличие приведены для примера.</p>
+        <p>Игровая полка © 2026</p>
         <p>Сетка: 12 колонок · Контейнер: 1200 px · Отступы: 24 px</p>
       </footer>
     </div>
