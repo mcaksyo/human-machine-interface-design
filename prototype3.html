@@ -1,197 +1,409 @@
-<!DOCTYPE html>
-<html lang=ru>
-<head>
-<meta charset=UTF-8>
-<meta name=viewport content="width=device-width, initial-scale=1.0">
-<title>Каталог игр — Прототип 3</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; line-height: 1.5; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 16px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; }
-  header, footer { grid-column: 1 / -1; background: #2c3e50; color: #fff; padding: 20px; border-radius: 8px; }
-  header p, footer p { color: #fff; }
-  nav { grid-column: 1 / -1; }
-  nav ul { display: flex; flex-wrap: wrap; gap: 16px; list-style: none; background: #34495e; padding: 12px 20px; border-radius: 8px; }
-  nav a { color: #fff; text-decoration: none; }
-  nav a:hover { text-decoration: underline; }
-  h1 { font-size: 22px; }
-  h2 { font-size: 18px; margin-bottom: 8px; }
-  h3 { font-size: 16px; margin-bottom: 6px; }
-  p { font-size: 14px; color: #555; }
-  main { grid-column: span 8; background: #fff; padding: 20px; border-radius: 8px; }
-  aside { grid-column: span 4; background: #e8eef4; padding: 20px; border-radius: 8px; }
-  .catalog { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 12px; }
-  .card { background: #e8eef4; padding: 20px; border-radius: 8px; }
-  .card button { margin-top: 8px; }
-  label { display: block; margin-top: 12px; font-size: 14px; }
-  input, select { width: 100%; min-width: 0; padding: 8px; border: 1px solid #aaa; border-radius: 4px; background: #fff; font: inherit; }
-  button { padding: 8px 16px; border: none; border-radius: 4px; background: #34495e; color: #fff; font: inherit; cursor: pointer; }
-  aside button { margin-top: 16px; }
-  .note { margin-top: 16px; }
-  .grid-overlay { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 1200px; height: 100vh; padding: 16px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; pointer-events: none; z-index: 999; }
-  .grid-overlay .col { background: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(52,152,219,.28) 31px, rgba(52,152,219,.28) 32px), rgba(231,76,60,.10); border-left: 1px dashed rgba(231,76,60,.55); border-right: 1px dashed rgba(231,76,60,.55); }
-  .grid-overlay span { display: block; text-align: center; font-size: 11px; color: #b74336; }
-  .grid-overlay.hidden { display: none; }
-  .grid-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 1000; padding: 10px 18px; background: #2c3e50; }
-  @media (max-width: 768px) { main, aside { grid-column: 1 / -1; } .catalog { grid-template-columns: 1fr; } }
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Каталог игр — Прототип 3</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        color: #333;
+        line-height: 1.5;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 24px;
+      }
+      header,
+      footer {
+        grid-column: 1 / -1;
+        background: #2c3e50;
+        color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      header p,
+      footer p {
+        color: #fff;
+      }
+      nav {
+        grid-column: 1 / -1;
+      }
+      nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        list-style: none;
+        background: #34495e;
+        padding: 12px 20px;
+        border-radius: 8px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      h2 {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+      p {
+        font-size: 14px;
+        color: #555;
+      }
+      main {
+        grid-column: span 8;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      aside {
+        grid-column: span 4;
+        background: #e8eef4;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .catalog {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        margin-top: 12px;
+      }
+      .card {
+        background: #e8eef4;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .card button {
+        margin-top: 8px;
+      }
+      label {
+        display: block;
+        margin-top: 12px;
+        font-size: 14px;
+      }
+      input,
+      select {
+        width: 100%;
+        min-width: 0;
+        padding: 8px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        background: #fff;
+        font: inherit;
+      }
+      button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #34495e;
+        color: #fff;
+        font: inherit;
+        cursor: pointer;
+      }
+      aside button {
+        margin-top: 16px;
+      }
+      .note {
+        margin-top: 16px;
+      }
+      .grid-overlay {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 1200px;
+        height: 100vh;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 24px;
+        pointer-events: none;
+        z-index: 999;
+      }
+      .grid-overlay .col {
+        background:
+          repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 31px,
+            rgba(52, 152, 219, 0.28) 31px,
+            rgba(52, 152, 219, 0.28) 32px
+          ),
+          rgba(231, 76, 60, 0.1);
+        border-left: 1px dashed rgba(231, 76, 60, 0.55);
+        border-right: 1px dashed rgba(231, 76, 60, 0.55);
+      }
+      .grid-overlay span {
+        display: block;
+        text-align: center;
+        font-size: 11px;
+        color: #b74336;
+      }
+      .grid-overlay.hidden {
+        display: none;
+      }
+      .grid-toggle {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 1000;
+        padding: 10px 18px;
+        background: #2c3e50;
+      }
+      @media (max-width: 768px) {
+        main,
+        aside {
+          grid-column: 1 / -1;
+        }
+        .catalog {
+          grid-template-columns: 1fr;
+        }
+      }
 
-aside { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; } aside h2, aside .note { grid-column: 1 / -1; } aside button { align-self: end; } label { margin-top: 0; } main { grid-column: 1 / -1; } .catalog { grid-template-columns: repeat(12, minmax(0, 1fr)); } .card { grid-column: span 4; } @media (max-width: 768px) { aside { grid-template-columns: 1fr; } .card { grid-column: 1 / -1; } }main { background: none; padding: 0; } .card { background: #fff; } .card:nth-child(1) { grid-column: span 6; background: #dce9f5; } .card:nth-child(2), .card:nth-child(3) { grid-column: span 3; background: #e8eef4; } @media (max-width: 768px) { .card:nth-child(1), .card:nth-child(2), .card:nth-child(3) { grid-column: 1 / -1; } }</style>
-</head>
-<body>
-<div class=grid-overlay id=gridOverlay aria-hidden=true>
-<div class=col>
-<span>1</span>
-</div>
-<div class=col>
-<span>2</span>
-</div>
-<div class=col>
-<span>3</span>
-</div>
-<div class=col>
-<span>4</span>
-</div>
-<div class=col>
-<span>5</span>
-</div>
-<div class=col>
-<span>6</span>
-</div>
-<div class=col>
-<span>7</span>
-</div>
-<div class=col>
-<span>8</span>
-</div>
-<div class=col>
-<span>9</span>
-</div>
-<div class=col>
-<span>10</span>
-</div>
-<div class=col>
-<span>11</span>
-</div>
-<div class=col>
-<span>12</span>
-</div>
-</div>
-<button class=grid-toggle id=gridToggle onclick=toggleGrid()>Скрыть сетку</button>
-<div class=container>
-<header>
-<h1>Игровая полка — аренда настольных игр</h1>
-<p>Прототип 3: каталог и поиск игр. Мозаичная компоновка.</p>
-</header>
-<nav>
-<ul>
-<li>
-<a href=prototype1.html>Прототип 1</a>
-</li>
-<li>
-<a href=prototype2.html>Прототип 2</a>
-</li>
-<li>
-<a href=prototype3.html>Прототип 3</a>
-</li>
-</ul>
-</nav>
-<aside>
-<h2>Поиск и фильтры (12 колонки)</h2>
-<div>
-<label for=search>Название игры</label>
-<input id=search type=search>
-</div>
-<div>
-<label for=category>Категория</label>
-<select id=category>
-<option>Все категории</option>
-<option>Семейные</option>
-<option>Стратегии</option>
-<option>Для компании</option>
-<option>Кооперативные</option>
-</select>
-</div>
-<div>
-<label for=players>Количество игроков</label>
-<select id=players>
-<option>Любое</option>
-<option>2 игрока</option>
-<option>3–5 игроков</option>
-<option>6 и более</option>
-</select>
-</div>
-<div>
-<label for=price>Цена за сутки</label>
-<select id=price>
-<option>Любая</option>
-<option>До 200 ₽</option>
-<option>200–300 ₽</option>
-<option>От 300 ₽</option>
-</select>
-</div>
-<div>
-<label for=available>Наличие</label>
-<select id=available>
-<option>Все игры</option>
-<option>Только в наличии</option>
-</select>
-</div>
-<button type=button>Найти игры</button>
-
-</aside>
-<main>
-<h2>Каталог игр (6 + 3 + 3, затем 4 + 4 + 4 колонки)</h2>
-<p>Примеры игр, доступных для аренды.</p>
-<div class=catalog>
-<article class=card>
-<h3>Каркассон</h3>
-<p>Семейная стратегия</p>
-<p>2–5 игроков · 8+ · 35–45 минут</p>
-<p>250 ₽ / сутки · В наличии</p>
-<button type=button>Подробнее</button>
-</article>
-<article class=card>
-<h3>Билет на поезд: Европа</h3>
-<p>Стратегия о железных дорогах</p>
-<p>2–5 игроков · 8+ · 30–60 минут</p>
-<p>350 ₽ / сутки · В наличии</p>
-<button type=button>Подробнее</button>
-</article>
-<article class=card>
-<h3>Кодовые имена</h3>
-<p>Игра для компании</p>
-<p>2–8 игроков · 10+ · 15 минут</p>
-<p>200 ₽ / сутки · В наличии</p>
-<button type=button>Подробнее</button>
-</article>
-<article class=card>
-<h3>Диксит</h3>
-<p>Игра в ассоциации</p>
-<p>3–6 игроков · 8+ · 30 минут</p>
-<p>250 ₽ / сутки · В наличии</p>
-<button type=button>Подробнее</button>
-</article>
-<article class=card>
-<h3>Пандемия</h3>
-<p>Кооперативная стратегия</p>
-<p>2–4 игрока · 10+ · 45 минут</p>
-<p>300 ₽ / сутки · Нет в наличии</p>
-<button type=button>Подробнее</button>
-</article>
-<article class=card>
-<h3>Уно</h3>
-<p>Карточная игра для компании</p>
-<p>2–10 игроков · 7+ · 20 минут</p>
-<p>100 ₽ / сутки · В наличии</p>
-<button type=button>Подробнее</button>
-</article>
-</div>
-</main>
-<footer>
-<p>Игровая полка © 2026</p>
-<p>Сетка: 12 колонок · Контейнер: 1200 px · Отступы: 24 px</p>
-</footer>
-</div>
-<script>function toggleGrid() { var o = document.getElementById("gridOverlay"); var b = document.getElementById("gridToggle"); o.classList.toggle("hidden"); b.textContent = o.classList.contains("hidden") ? "Показать сетку" : "Скрыть сетку"; }</script>
-</body>
+      aside {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px 24px;
+      }
+      aside h2,
+      aside .note {
+        grid-column: 1 / -1;
+      }
+      aside button {
+        align-self: end;
+      }
+      label {
+        margin-top: 0;
+      }
+      main {
+        grid-column: 1 / -1;
+      }
+      .catalog {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+      .card {
+        grid-column: span 4;
+      }
+      @media (max-width: 768px) {
+        aside {
+          grid-template-columns: 1fr;
+        }
+        .card {
+          grid-column: 1 / -1;
+        }
+      }
+      main {
+        background: none;
+        padding: 0;
+      }
+      .card {
+        background: #fff;
+      }
+      .card:nth-child(1) {
+        grid-column: span 6;
+        background: #dce9f5;
+      }
+      .card:nth-child(2),
+      .card:nth-child(3) {
+        grid-column: span 3;
+        background: #e8eef4;
+      }
+      @media (max-width: 768px) {
+        .card:nth-child(1),
+        .card:nth-child(2),
+        .card:nth-child(3) {
+          grid-column: 1 / -1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-overlay" id="gridOverlay" aria-hidden="true">
+      <div class="col">
+        <span>1</span>
+      </div>
+      <div class="col">
+        <span>2</span>
+      </div>
+      <div class="col">
+        <span>3</span>
+      </div>
+      <div class="col">
+        <span>4</span>
+      </div>
+      <div class="col">
+        <span>5</span>
+      </div>
+      <div class="col">
+        <span>6</span>
+      </div>
+      <div class="col">
+        <span>7</span>
+      </div>
+      <div class="col">
+        <span>8</span>
+      </div>
+      <div class="col">
+        <span>9</span>
+      </div>
+      <div class="col">
+        <span>10</span>
+      </div>
+      <div class="col">
+        <span>11</span>
+      </div>
+      <div class="col">
+        <span>12</span>
+      </div>
+    </div>
+    <button class="grid-toggle" id="gridToggle" onclick="toggleGrid()">
+      Скрыть сетку
+    </button>
+    <div class="container">
+      <header>
+        <h1>Игровая полка — аренда настольных игр</h1>
+        <p>Прототип 3: каталог и поиск игр. Мозаичная компоновка.</p>
+      </header>
+      <nav>
+        <ul>
+          <li>
+            <a href="prototype1.html">Прототип 1</a>
+          </li>
+          <li>
+            <a href="prototype2.html">Прототип 2</a>
+          </li>
+          <li>
+            <a href="prototype3.html">Прототип 3</a>
+          </li>
+        </ul>
+      </nav>
+      <aside>
+        <h2>Поиск и фильтры (12 колонки)</h2>
+        <div>
+          <label for="search">Название игры</label>
+          <input id="search" type="search" />
+        </div>
+        <div>
+          <label for="category">Категория</label>
+          <select id="category">
+            <option>Все категории</option>
+            <option>Семейные</option>
+            <option>Стратегии</option>
+            <option>Для компании</option>
+            <option>Кооперативные</option>
+          </select>
+        </div>
+        <div>
+          <label for="players">Количество игроков</label>
+          <select id="players">
+            <option>Любое</option>
+            <option>2 игрока</option>
+            <option>3–5 игроков</option>
+            <option>6 и более</option>
+          </select>
+        </div>
+        <div>
+          <label for="price">Цена за сутки</label>
+          <select id="price">
+            <option>Любая</option>
+            <option>До 200 ₽</option>
+            <option>200–300 ₽</option>
+            <option>От 300 ₽</option>
+          </select>
+        </div>
+        <div>
+          <label for="available">Наличие</label>
+          <select id="available">
+            <option>Все игры</option>
+            <option>Только в наличии</option>
+          </select>
+        </div>
+        <button type="button">Найти игры</button>
+      </aside>
+      <main>
+        <h2>Каталог игр (6 + 3 + 3, затем 4 + 4 + 4 колонки)</h2>
+        <p>Примеры игр, доступных для аренды.</p>
+        <div class="catalog">
+          <article class="card">
+            <h3>Каркассон</h3>
+            <p>Семейная стратегия</p>
+            <p>2–5 игроков · 8+ · 35–45 минут</p>
+            <p>250 ₽ / сутки · В наличии</p>
+            <button type="button">Подробнее</button>
+          </article>
+          <article class="card">
+            <h3>Билет на поезд: Европа</h3>
+            <p>Стратегия о железных дорогах</p>
+            <p>2–5 игроков · 8+ · 30–60 минут</p>
+            <p>350 ₽ / сутки · В наличии</p>
+            <button type="button">Подробнее</button>
+          </article>
+          <article class="card">
+            <h3>Кодовые имена</h3>
+            <p>Игра для компании</p>
+            <p>2–8 игроков · 10+ · 15 минут</p>
+            <p>200 ₽ / сутки · В наличии</p>
+            <button type="button">Подробнее</button>
+          </article>
+          <article class="card">
+            <h3>Диксит</h3>
+            <p>Игра в ассоциации</p>
+            <p>3–6 игроков · 8+ · 30 минут</p>
+            <p>250 ₽ / сутки · В наличии</p>
+            <button type="button">Подробнее</button>
+          </article>
+          <article class="card">
+            <h3>Пандемия</h3>
+            <p>Кооперативная стратегия</p>
+            <p>2–4 игрока · 10+ · 45 минут</p>
+            <p>300 ₽ / сутки · Нет в наличии</p>
+            <button type="button">Подробнее</button>
+          </article>
+          <article class="card">
+            <h3>Уно</h3>
+            <p>Карточная игра для компании</p>
+            <p>2–10 игроков · 7+ · 20 минут</p>
+            <p>100 ₽ / сутки · В наличии</p>
+            <button type="button">Подробнее</button>
+          </article>
+        </div>
+      </main>
+      <footer>
+        <p>Игровая полка © 2026</p>
+        <p>Сетка: 12 колонок · Контейнер: 1200 px · Отступы: 24 px</p>
+      </footer>
+    </div>
+    <script>
+      function toggleGrid() {
+        var o = document.getElementById("gridOverlay");
+        var b = document.getElementById("gridToggle");
+        o.classList.toggle("hidden");
+        b.textContent = o.classList.contains("hidden")
+          ? "Показать сетку"
+          : "Скрыть сетку";
+      }
+    </script>
+  </body>
 </html>
